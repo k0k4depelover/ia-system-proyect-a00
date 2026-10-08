@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: notas
+
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:6432/app?sslmode=disable&prepareThreshold=0&preparedStatementCacheQueries=0}
+    username: ${DB_USER:app}
+    password: ${DB_PASSWORD:app}
+    driver-class-name: org.postgresql.Driver
+
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 10000   # ms
+      
+  jpa:
+      hibernate:
+        ddl-auto: validate
+      properties:
+        # Definir el dialecto explícito evita que falle si la conexión inicial tarda
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    url: ${FLYWAY_URL:jdbc:postgresql://localhost:5433/app}
+    user: ${DB_USER:app}
+    password: ${DB_PASSWORD:app}
+    baseline-on-migrate: true
+
+  mvc:
+    problemdetails:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+        
