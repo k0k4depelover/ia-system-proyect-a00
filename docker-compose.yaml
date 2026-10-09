@@ -19,21 +19,21 @@ services:
 
 
   pgbouncer:
-    container_name: pgbouncer_notas_v1
-    image: edoburu/pgbouncer:v1.26.0-p0
-    environment:
-      DATABASE_URL: postgres://app:app@postgres:5432/app
-      AUTH_TYPE: plain
-      POOL_MODE: transaction
-      DEFAULT_POOL_SIZE: 20
-      MAX_CLIENT_CONN: 500
-      ADMIN_USERS: app
-    
-    ports:
-      - "6432:6432"
-    depends_on:
-      postgres:
-        condition: service_healthy
+      container_name: pgbouncer_notas_v1
+      image: edoburu/pgbouncer:v1.26.0-p0
+      ports:
+        - "6432:5432"
+      environment:
+        DATABASE_URL: postgres://app:app@postgres:5432/app
+        AUTH_TYPE: scram-sha-256
+        AUTH_USER: app
+        POOL_MODE: transaction
+        DEFAULT_POOL_SIZE: 20
+        MAX_CLIENT_CONN: 500
+        ADMIN_USERS: app
+      depends_on:
+        postgres:
+          condition: service_healthy
 
 volumes:
   pgdata:

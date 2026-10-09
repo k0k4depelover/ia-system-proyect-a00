@@ -1,6 +1,7 @@
 spring:
   application:
     name: notas
+    
 
 
   datasource:
@@ -13,19 +14,18 @@ spring:
       maximum-pool-size: 10
       connection-timeout: 10000   # ms
       
-  jpa:
-      hibernate:
-        ddl-auto: validate
-      properties:
-        # Definir el dialecto explícito evita que falle si la conexión inicial tarda
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     url: ${FLYWAY_URL:jdbc:postgresql://localhost:5433/app}
     user: ${DB_USER:app}
     password: ${DB_PASSWORD:app}
     baseline-on-migrate: true
 
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   mvc:
     problemdetails:
       enabled: true
