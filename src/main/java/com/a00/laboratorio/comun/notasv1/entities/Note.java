@@ -9,6 +9,7 @@ import org.hibernate.generator.EventType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -16,7 +17,7 @@ import jakarta.persistence.Table;
 @Table (name = "notes") 
 public class Note {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Generated(event = EventType.INSERT)
     @Column(columnDefinition = "uuid", updatable = false, insertable = false)
     private UUID id;
@@ -25,6 +26,11 @@ public class Note {
     public Note() {
     }
     
+    public Note(String title, String body) {
+        this.title = title;
+        this.body = body;
+    }
+
     @Column (nullable = false, length = 200)
     private String title;
 
@@ -34,9 +40,7 @@ public class Note {
     @Generated(event = EventType.INSERT)
     @Column(name = "created_at", nullable = false, updatable = false, insertable = false)
     private OffsetDateTime createdAt;
-    public Note(String title2, String body2) {
-        //TODO Auto-generated constructor stub
-    }
+
     public UUID getId() {
         return id;
     }

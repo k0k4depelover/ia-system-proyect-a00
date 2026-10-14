@@ -30,6 +30,13 @@ spring:
     problemdetails:
       enabled: true
 
+
+server:
+  web:
+    error:
+      include-error: always
+      include-binding-errors: always
+
 management:
   endpoints:
     web:

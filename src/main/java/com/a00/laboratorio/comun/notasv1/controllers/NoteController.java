@@ -36,7 +36,7 @@ public class NoteController {
         return ResponseEntity.ok(service.findAll());
     }
 
-    // Corregido: /{id} con llaves para enlazar el @PathVariable
+    
     @GetMapping("/{id}")
     public ResponseEntity<Note> findById(@PathVariable UUID id) {
         return service.findById(id)

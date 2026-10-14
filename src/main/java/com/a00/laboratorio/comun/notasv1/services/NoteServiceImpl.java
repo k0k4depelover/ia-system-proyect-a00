@@ -43,6 +43,7 @@ public class NoteServiceImpl implements INoteService {
             return repository.save(note);
         }
         catch(RuntimeException e){
+            e.printStackTrace();
             throw new InvalidNoteException("El formato de la nota es invalido");
         }
     }
