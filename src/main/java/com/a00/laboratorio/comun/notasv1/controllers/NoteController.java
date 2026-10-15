@@ -19,6 +19,11 @@ import com.a00.laboratorio.comun.notasv1.entities.dto.NoteRequest;
 import com.a00.laboratorio.comun.notasv1.services.INoteService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController 
 @RequestMapping("/notes/v1")
@@ -31,10 +36,6 @@ public class NoteController {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Note>> findAll() {
-        return ResponseEntity.ok(service.findAll());
-    }
 
     
     @GetMapping("/{id}")
@@ -61,4 +62,10 @@ public class NoteController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping
+    public ResponseEntity<?> latest(@RequestParam(defaultValue = "20") @Min(1) @Max(100) int limit) {
+        return ResponseEntity.ok(service.findAllWithLimit(limit));
+    }
+    
 }

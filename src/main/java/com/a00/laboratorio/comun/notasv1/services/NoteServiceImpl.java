@@ -72,4 +72,12 @@ public class NoteServiceImpl implements INoteService {
         }
         repository.deleteById(id);
     }
+
+    @Override
+    public List<Note> findAllWithLimit(int limit) {
+        if (limit<= 0){
+            throw new RuntimeException("Debes ingresar un limite de notas valido.");
+        }
+        return repository.findAllWithLimit(limit);
+    }
 }
