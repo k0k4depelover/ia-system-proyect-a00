@@ -1,9 +1,10 @@
 package com.a00.laboratorio.comun.notasv1.controllers;
 
-import java.util.List;
+import java.net.URI;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,16 +40,22 @@ public class NoteController {
 
     
     @GetMapping("/{id}")
-    public ResponseEntity<Note> findById(@PathVariable UUID id) {
-        return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> findById(@PathVariable UUID id) {
+        var note = service.findById(id);
+
+        if (note.isEmpty()) {
+            return ResponseEntity.status(404).body(ProblemDetail.forStatus(404));
+        }
+
+        return ResponseEntity.ok(note.get());
     }
 
+
     @PostMapping
-    public ResponseEntity<Note> create(@Valid @RequestBody NoteRequest note) {
-        Note noteCreate = service.create(note);
-        return ResponseEntity.status(HttpStatus.CREATED).body(noteCreate);
+    public ResponseEntity<?> create(@Valid @RequestBody NoteRequest note) {
+        Note created = service.create(note);
+        URI location = URI.create("/api/v1/notes/" + created.getId());
+        return ResponseEntity.created(location).body(created);
     }
 
     @PutMapping("/{id}")
