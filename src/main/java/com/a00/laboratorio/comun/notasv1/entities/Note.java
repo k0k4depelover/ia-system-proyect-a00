@@ -1,67 +1,77 @@
 package com.a00.laboratorio.comun.notasv1.entities;
 
+import com.fasterxml.uuid.Generators;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.generator.EventType;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
 @Entity
-@Table (name = "notes") 
+@Table(name = "notes")
 public class Note {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "uuid", updatable = false, insertable = false)
+    @Column(name = "id", columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(nullable = false, length = 150)
+    private String title;
+
+    @Column(nullable = false)
+    private String body;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
 
     public Note() {
     }
-    
+
     public Note(String title, String body) {
         this.title = title;
         this.body = body;
     }
 
-    @Column (nullable = false, length = 200)
-    private String title;
-
-    @Column (nullable = false)
-    private String body; 
-
-    @Generated(event = EventType.INSERT)
-    @Column(name = "created_at", nullable = false, updatable = false, insertable = false)
-    private OffsetDateTime createdAt;
+    @PrePersist
+    protected void onPrePersist() {
+        if (this.id == null) {
+            this.id = Generators.timeBasedEpochGenerator().generate(); // UUIDv7
+        }
+        if (this.createdAt == null) {
+            this.createdAt = OffsetDateTime.now();
+        }
+    }
 
     public UUID getId() {
         return id;
     }
+
     public void setId(UUID id) {
         this.id = id;
     }
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getBody() {
         return body;
     }
+
     public void setBody(String body) {
         this.body = body;
     }
+
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
+
     public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }

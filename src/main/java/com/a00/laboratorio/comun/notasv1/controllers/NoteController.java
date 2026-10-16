@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController 
-@RequestMapping("/notes/v1")
+@RequestMapping("/api/v1/notes")
 public class NoteController {
 
     private final INoteService service;

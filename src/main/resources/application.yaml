@@ -18,11 +18,13 @@ spring:
     url: ${FLYWAY_URL:jdbc:postgresql://localhost:5433/app}
     user: ${DB_USER:app}
     password: ${DB_PASSWORD:app}
-    baseline-on-migrate: true
+    mvc:
+      problemdetails:
+      enabled: true
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
