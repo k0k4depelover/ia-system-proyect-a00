@@ -24,7 +24,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate  # Si es la primera vez ejecutando cambiar a: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
