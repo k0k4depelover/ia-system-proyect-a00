@@ -7,7 +7,6 @@ import com.a00.laboratorio.comun.notasv1.repository.NoteRepository;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController 
@@ -19,7 +18,7 @@ public class LabController {
     }
 
     @GetMapping("/api/lab/conexion")
-    public ResponseEntity<BackendSessionInfo> conexion(@RequestParam String param) {
+    public ResponseEntity<BackendSessionInfo> conexion() {
         return ResponseEntity.ok(repository.getSessionInfo());
     }
     
